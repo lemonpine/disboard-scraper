@@ -25,7 +25,7 @@ while True:
         serverIds.append(serverID)
         
     for url in serverIds:
-        request = requests.get(f"http://disboard.org/server/join/{url}", headers=HEADERS, allow_redirects=False)
+        request = requests.get(f"https://disboard.org/server/join/{url}", headers=HEADERS)
         print(request.url)
         f.write(f'{request.url}\n')
 
