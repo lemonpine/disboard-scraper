@@ -1,5 +1,11 @@
-from bs4 import BeautifulSoup
 import requests
+
+
+from bs4                               import BeautifulSoup
+from selenium                          import webdriver
+from selenium.webdriver.support.ui     import WebDriverWait
+from selenium.webdriver.support        import expected_conditions as EC
+from selenium.webdriver.chrome.options import Options
 
 keywords = input("input keywords eg: nitro+kpop+minecraft ")
 sort = input("sort by bumped recently, or member count? [1/2] ")
@@ -22,13 +28,22 @@ while True:
     disboardServerIDs = []
     for card in server_card:
         disboardServerID = card.find('a', class_="button button-join is-discord").get('data-id')
-        serverIds.append(disboardServerID)
+        disboardServerIDs.append(disboardServerID)
         
+    options = Options()
+    options.add_argument('--headless') 
+    options.add_experimental_option('excludeSwitches', ['enable-logging'])
+    
+    
+    browser = webdriver.Chrome(chrome_options=options)
     for Id in disboardServerIDs:
-        request = requests.get(f"https://disboard.org/server/join/{Id}", headers=HEADERS)
-        print(request.url)
-        f.write(f'{request.url}\n')
-
+        browser.get(f"https://disboard.org/server/join/{Id}")
+        url = WebDriverWait(browser, 10).until(EC.url_contains('https://discord.com/invite/'))
+        print(browser.current_url)
+        f.write()
+        
+    browser.close()
     i = i + 1
+    
 f.close()
 
