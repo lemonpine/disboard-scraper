@@ -22,7 +22,7 @@ while True:
     disboardServerIDs = []
     for card in server_card:
         disboardServerID = card.find('a', class_="button button-join is-discord").get('data-id')
-        serverIds.append(disboardServerID)
+        disboardServerIDs.append(disboardServerID)
         
     for Id in disboardServerIDs:
         request = requests.get(f"https://disboard.org/server/join/{Id}", headers=HEADERS)
