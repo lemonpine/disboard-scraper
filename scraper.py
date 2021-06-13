@@ -15,13 +15,9 @@ if sort == "1":
 elif sort == "2":
     disboardUrl = f"https://disboard.org/search?keyword={keywords}&sort=-member_count"
 
-HEADERS = {'User-Agent': 'Mozilla/5.0'}
-
 i = 1
-f = open('invites.txt', 'w')
-
 while True:
-    request = requests.get(f"{disboardUrl}&page={i}", headers=HEADERS)
+    request = requests.get(f"{disboardUrl}&page={i}", headers={'User-Agent': 'Mozilla/5.0'})
     soup = BeautifulSoup(request.text, 'html.parser')
     server_card = soup.findAll('div', class_="column is-one-third-desktop is-half-tablet")
 
@@ -40,10 +36,11 @@ while True:
         browser.get(f"https://disboard.org/server/join/{Id}")
         url = WebDriverWait(browser, 10).until(EC.url_contains('https://discord.com/invite/'))
         print(browser.current_url)
-        f.write()
+        
+        with open("invites.txt", "a") as file:
+            file.write(f'{browser.current_url}\n')
         
     browser.close()
     i = i + 1
     
-f.close()
 
