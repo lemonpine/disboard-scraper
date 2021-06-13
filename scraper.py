@@ -19,13 +19,13 @@ while True:
     soup = BeautifulSoup(request.text, 'html.parser')
     server_card = soup.findAll('div', class_="column is-one-third-desktop is-half-tablet")
 
-    serverIds = []
+    disboardServerIDs = []
     for card in server_card:
-        serverID = card.find('a', class_="button button-join is-discord").get('data-id')
-        serverIds.append(serverID)
+        disboardServerID = card.find('a', class_="button button-join is-discord").get('data-id')
+        serverIds.append(disboardServerID)
         
-    for url in serverIds:
-        request = requests.get(f"https://disboard.org/server/join/{url}", headers=HEADERS)
+    for Id in disboardServerIDs:
+        request = requests.get(f"https://disboard.org/server/join/{Id}", headers=HEADERS)
         print(request.url)
         f.write(f'{request.url}\n')
 
