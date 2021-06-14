@@ -16,6 +16,7 @@ elif sort == "2":
     disboardUrl = f"https://disboard.org/search?keyword={keywords}&sort=-member_count"
 
 i = 1
+browser = webdriver.Chrome(chrome_options=options)
 while True:
     request = requests.get(f"{disboardUrl}&page={i}", headers={'User-Agent': 'Mozilla/5.0'})
     soup = BeautifulSoup(request.text, 'html.parser')
@@ -31,7 +32,6 @@ while True:
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
     
     
-    browser = webdriver.Chrome(chrome_options=options)
     for Id in disboardServerIDs:
         browser.get(f"https://disboard.org/server/join/{Id}")
         url = WebDriverWait(browser, 10).until(EC.url_contains('https://discord.com/invite/'))
@@ -40,7 +40,8 @@ while True:
         with open("invites.txt", "a") as file:
             file.write(f'{browser.current_url}\n')
         
-    browser.close()
     i = i + 1
+    
+browser.close()
     
 
